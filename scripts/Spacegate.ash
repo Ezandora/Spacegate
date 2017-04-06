@@ -17,7 +17,7 @@ string __setting_planet_override = "";
 
 
 
-string __spacegate_version = "1.0.3";
+string __spacegate_version = "1.0.4";
 
 
 
@@ -268,8 +268,6 @@ void main()
 		int hp_desired = 1;
 		if (state.plant_life != "none detected" || state.animal_life != "none detected" || state.intelligent_life != "none detected")
 			hp_desired = my_maxhp();
-		print_html("hp_desired = " + hp_desired);
-		break;
 		//So... if all of those are none, what happens with spant/murderbots? Do you encounter fights?
 		if (my_hp() < hp_desired)
 			restore_hp(hp_desired);
