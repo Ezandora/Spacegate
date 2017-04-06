@@ -17,7 +17,7 @@ string __setting_planet_override = "";
 
 
 
-string __spacegate_version = "1.0.5";
+string __spacegate_version = "1.0.6";
 
 
 
@@ -232,6 +232,8 @@ void main()
 		return;
 	}
 	
+	int alien_gemstones_before = to_item("alien gemstone").item_amount();
+	
 	item [slot] saved_outfit;
 	foreach s in $slots[hat,weapon,off-hand,back,shirt,pants,acc1,acc2,acc3,familiar]
 		saved_outfit[s] = s.equipped_item();
@@ -309,6 +311,12 @@ void main()
 		}
 		state.probable_energy_remaining -= 1;
 	}
+	foreach s, it in saved_outfit
+	{
+		if (s.equipped_item() != it)
+			equip(s, it);
+	}
+	
 	if (my_adventures() == 0)
 	{
 		state = determineState();
@@ -337,14 +345,21 @@ void main()
 			cli_execute("closet take " + closet_amount + " alien gemstone");
 	
 		int research_gained = research_after - research_before;
+		
+		int alien_gemstones_after = to_item("alien gemstone").item_amount();
+		int alien_gemstones_gained = alien_gemstones_after - alien_gemstones_before;
+		
 		if (research_gained > 0)
 		{
-			print("Earned " + research_gained + " research.");
+			string line = "Earned " + research_gained + " research";
+			if (alien_gemstones_gained > 0)
+			{
+				line += " and " + alien_gemstones_gained + " alien gemstone";
+				if (alien_gemstones_gained > 1)
+					line += "s";
+			}
+			line += ".";
+			print(line);
 		}
-	}
-	foreach s, it in saved_outfit
-	{
-		if (s.equipped_item() != it)
-			equip(s, it);
 	}
 }
