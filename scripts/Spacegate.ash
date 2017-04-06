@@ -237,10 +237,10 @@ void main()
 	int breakout = 100;
 	boolean did_adventure = false;
 	Spacestate state = determineState();
-	while (breakout > 0)
+	while (breakout > 0 && my_adventures() > 0)
 	{
 		//Only reload if we think we're done:
-		if (state.probable_energy_remaining <= 0)
+		if (state.probable_energy_remaining <= 0 && state.energy_remaining != 0)
 			state = determineState();
 		if (!state.dialed)
 		{
@@ -293,6 +293,12 @@ void main()
 			break;
 		}
 		state.probable_energy_remaining -= 1;
+	}
+	if (my_adventures() == 0)
+	{
+		state = determineState();
+		if (state.energy_remaining != 0)
+			print("Ran out of adventures.");
 	}
 		
 	if (__setting_automatically_turn_in_research && did_adventure)
