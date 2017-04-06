@@ -17,7 +17,7 @@ string __setting_planet_override = "";
 
 
 
-string __spacegate_version = "1.0.4";
+string __spacegate_version = "1.0.5";
 
 
 
@@ -98,7 +98,7 @@ Record Spacestate
 	string animal_life;
 	string intelligent_life;
 	boolean [string] environmental_hazards;
-	
+	boolean [string] alerts;
 	
 	//Consequences:
 	boolean [item] equipment_needed;
@@ -144,7 +144,6 @@ Spacestate determineState()
 	state.planet_coordinates = first_level_match[0][2];
 	state.plant_life = first_level_match[0][4];
 	state.animal_life = first_level_match[0][5];
-	state.intelligent_life = first_level_match[0][6];
 	state.energy_remaining = first_level_match[0][7].to_int_silent();
 	state.probable_energy_remaining = state.energy_remaining;
 	
@@ -153,6 +152,15 @@ Spacestate determineState()
 	foreach key, hazard in el_hazard
 	{
 		state.environmental_hazards[hazard] = true;
+	}
+	
+	string [int] second_level_match = first_level_match[0][6].split_string_alternate("<br>");
+	//print_html("second_level_match = \"" + second_level_match.to_json() + "\"");
+	state.intelligent_life = second_level_match[0];
+	foreach key, entry in second_level_match
+	{
+		if (key == 0) continue;
+		state.alerts[entry] = true;
 	}
 	
 	calculateEquipmentNeeded(state);
@@ -268,7 +276,7 @@ void main()
 		int hp_desired = 1;
 		if (state.plant_life != "none detected" || state.animal_life != "none detected" || state.intelligent_life != "none detected")
 			hp_desired = my_maxhp();
-		//So... if all of those are none, what happens with spant/murderbots? Do you encounter fights?
+		//So... if all of those are none, what happens with spant/murderbots? Do you encounter fights? I don't think so?
 		if (my_hp() < hp_desired)
 			restore_hp(hp_desired);
 		
