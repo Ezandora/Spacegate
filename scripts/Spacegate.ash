@@ -17,7 +17,7 @@ string __setting_planet_override = "";
 
 
 
-string __spacegate_version = "1.0";
+string __spacegate_version = "1.0.1";
 
 
 
@@ -247,6 +247,7 @@ void main()
 			//Pick a planet:
 			string desired_planet = pickPlanet();
 			print("Dialing planet " + desired_planet + "...");
+			visit_url("place.php?whichplace=spacegate&action=sg_Terminal");
 			visit_url("choice.php?whichchoice=1235&option=2&word=" + desired_planet);
 			continue;
 		}
