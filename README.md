@@ -1,6 +1,6 @@
 Spacegate
 =====
-Farms spacegate research in Kingdom of Loathing.
+Farms spacegate research in Kingdom of Loathing. Earns ~300 research + alien gemstones a day.
 
 Installation
 ----------------
