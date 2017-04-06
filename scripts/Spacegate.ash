@@ -17,7 +17,7 @@ string __setting_planet_override = "";
 
 
 
-string __spacegate_version = "1.0.2";
+string __spacegate_version = "1.0.3";
 
 
 
@@ -224,9 +224,9 @@ void main()
 		return;
 	}
 	
-	item [slot] saved_items;
+	item [slot] saved_outfit;
 	foreach s in $slots[hat,weapon,off-hand,back,shirt,pants,acc1,acc2,acc3,familiar]
-		saved_items[s] = s.equipped_item();
+		saved_outfit[s] = s.equipped_item();
 		
 	//Method used:
 	//Pick a Z-planet (does this affect rock count?) with no combats, and equip the right kit.
@@ -254,6 +254,7 @@ void main()
 			print("Dialing planet " + desired_planet + "...");
 			visit_url("place.php?whichplace=spacegate&action=sg_Terminal");
 			visit_url("choice.php?whichchoice=1235&option=2&word=" + desired_planet);
+			state = determineState();
 			continue;
 		}
 		if (state.energy_remaining <= 0)
@@ -267,6 +268,8 @@ void main()
 		int hp_desired = 1;
 		if (state.plant_life != "none detected" || state.animal_life != "none detected" || state.intelligent_life != "none detected")
 			hp_desired = my_maxhp();
+		print_html("hp_desired = " + hp_desired);
+		break;
 		//So... if all of those are none, what happens with spant/murderbots? Do you encounter fights?
 		if (my_hp() < hp_desired)
 			restore_hp(hp_desired);
@@ -333,7 +336,7 @@ void main()
 			print("Earned " + research_gained + " research.");
 		}
 	}
-	foreach s, it in saved_items
+	foreach s, it in saved_outfit
 	{
 		if (s.equipped_item() != it)
 			equip(s, it);
