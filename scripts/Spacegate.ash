@@ -17,7 +17,7 @@ string __setting_planet_override = "";
 
 
 
-string __spacegate_version = "1.0.1";
+string __spacegate_version = "1.0.2";
 
 
 
@@ -223,6 +223,11 @@ void main()
 		print("You are overdrunk.");
 		return;
 	}
+	
+	item [slot] saved_items;
+	foreach s in $slots[hat,weapon,off-hand,back,shirt,pants,acc1,acc2,acc3,familiar]
+		saved_items[s] = s.equipped_item();
+		
 	//Method used:
 	//Pick a Z-planet (does this affect rock count?) with no combats, and equip the right kit.
 	
@@ -327,5 +332,10 @@ void main()
 		{
 			print("Earned " + research_gained + " research.");
 		}
+	}
+	foreach s, it in saved_items
+	{
+		if (s.equipped_item() != it)
+			equip(s, it);
 	}
 }
