@@ -17,7 +17,7 @@ string __setting_planet_override = "";
 
 
 
-string __spacegate_version = "1.0.6";
+string __spacegate_version = "1.0.7";
 
 
 
@@ -201,6 +201,7 @@ void acquireAndEquipNeededEquipment(Spacestate state)
 	choice_ids_for_equipment[$item[botanical sample kit]] = 7;
 	choice_ids_for_equipment[$item[zoological sample kit]] = 8;
 	
+	int next_accessory_slot_id = 1;
 	foreach it in state.equipment_needed
 	{
 		if (it.available_amount() == 0 && choice_ids_for_equipment contains it)
@@ -208,9 +209,21 @@ void acquireAndEquipNeededEquipment(Spacestate state)
 			visit_url("place.php?whichplace=spacegate&action=sg_requisition");
 			visit_url("choice.php?whichchoice=1233&option=" + choice_ids_for_equipment[it]);
 		}
-		if (it.available_amount() > 0 && it.equipped_amount() == 0)
+		if (it.available_amount() > 0)
 		{
-			equip(it);
+			slot s = it.to_slot();
+			if ($slots[acc1, acc2, acc3] contains s)
+			{
+				if (next_accessory_slot_id == 1)
+					s = $slot[acc1];
+				else if (next_accessory_slot_id == 2)
+					s = $slot[acc2];
+				else if (next_accessory_slot_id == 3)
+					s = $slot[acc3];
+				next_accessory_slot_id += 1;
+			}
+			if (it.equipped_amount() == 0 || ($slots[acc1, acc2, acc3] contains s))
+				equip(s, it);
 		}
 	}
 }
