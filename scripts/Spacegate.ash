@@ -17,7 +17,7 @@ string __setting_planet_override = "";
 
 
 
-string __spacegate_version = "1.0.7";
+string __spacegate_version = "1.0.8";
 
 
 
@@ -155,7 +155,6 @@ Spacestate determineState()
 	}
 	
 	string [int] second_level_match = first_level_match[0][6].split_string_alternate("<br>");
-	//print_html("second_level_match = \"" + second_level_match.to_json() + "\"");
 	state.intelligent_life = second_level_match[0];
 	foreach key, entry in second_level_match
 	{
@@ -165,8 +164,6 @@ Spacestate determineState()
 	
 	calculateEquipmentNeeded(state);
 	
-	//print_html("first_level_match = " + first_level_match.to_json().entity_encode());
-	//print_html("state = " + state.to_json().entity_encode());
 	return state;
 }
 
@@ -175,18 +172,10 @@ string pickPlanet()
 {
 	if (__setting_planet_override != "")
 		return __setting_planet_override;
-	//FIXME properly do this
-	//Ideally we want to unlock everything, on planets that don't have combats.
-	//int space_baby_language_fluency = get_property("spaceBabyLanguageFluency").to_int_silent();
-	int space_pirate_language_fluency = get_property("spacePirateLanguageFluency").to_int_silent(); //property name guess
-	if (space_pirate_language_fluency >= 100)
-		return "ZYXWVUT";
-	else
-		return "ZZZZZZZ";
-	//Consider VANANAS:
-	//Space rocks + Here There Be No Spants, gives ~355 + gemstones.
-	//Here There Be No Spants is worth 25 pages. Rock formations are worth.. hmm... 15-18 + gemstone_rate * 100? What's the gemstone rate? Guessing 5% for now, from preliminary data. Soo... 20-23? That's less than 25.
-	//Need to spade whether rocks from lower-difficulty planets give less on average, before we consider switching. Or just find a Z planet with rocks + no combats + spants.
+	
+	//FIXME do this properly
+	//Rock-only planet. Not ideal, not Z.
+	return "NOMBIES";
 }
 
 void acquireAndEquipNeededEquipment(Spacestate state)
@@ -258,8 +247,6 @@ void main()
 	//Cool space rocks - 1255, 2 with geology kit, 1 otherwise
 	//Space cave - 1236, 2 with geology kit, 1 otherwise
 	//Wide open spaces - 1256, 2 with geology kit, 1 otherwise
-	//106 alien rock samples from ZYXWVUT, but no alien gemstones yet.
-	//ZZZZZZZ is similar, but with one pirate NC. Which means one less rock, but one extra pirate language.
 	
 	//boolean [item] items_to_track = $items[alien rock sample,alien gemstone];
 	int breakout = 100;
