@@ -12,6 +12,6 @@ Will require [a recent build of KoLMafia](http://builds.kolmafia.us/job/Kolmafia
 
 Usage
 ----------------
-Type "spacegate" into the graphical CLI, or select Scripts>Spacegate.ash from the menu.
+Type "spacegate.ash" into the graphical CLI, or select Scripts>Spacegate.ash from the menu.
 
 The script will automatically dial a gate, and farm for twenty turns. It saves alien gemstones in your inventory, in case you want to mall sell them.
