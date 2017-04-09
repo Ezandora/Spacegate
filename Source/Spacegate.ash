@@ -17,7 +17,7 @@ string __setting_planet_override = "";
 
 
 
-string __spacegate_version = "1.0.8";
+string __spacegate_version = "1.0.9";
 
 
 
@@ -175,7 +175,7 @@ string pickPlanet()
 	
 	//FIXME do this properly
 	//Rock-only planet. Not ideal, not Z.
-	return "NOMBIES";
+	return "WARLOCK"; //"PWBUVQQ";
 }
 
 void acquireAndEquipNeededEquipment(Spacestate state)
@@ -286,6 +286,7 @@ void main()
 		int [int] choice_adventure_settings;
 		choice_adventure_settings[1244] = 1; //Here There Be No Spants
 		choice_adventure_settings[1246] = 1; //Land Ho, pirate language scrolls
+		choice_adventure_settings[1248] = 2; //Paradise Under a Strange Sun, Work on your tan. so what's 1?
 		if ($item[geological sample kit].equipped_amount() > 0)
 		{
 			choice_adventure_settings[1255] = 2;
