@@ -17,7 +17,7 @@ string __setting_planet_override = "";
 
 
 
-string __spacegate_version = "1.0.9";
+string __spacegate_version = "1.0.10";
 
 
 
@@ -174,8 +174,7 @@ string pickPlanet()
 		return __setting_planet_override;
 	
 	//FIXME do this properly
-	//Rock-only planet. Not ideal, not Z.
-	return "WARLOCK"; //"PWBUVQQ";
+	return "ZESTFUL";
 }
 
 void acquireAndEquipNeededEquipment(Spacestate state)
@@ -283,10 +282,18 @@ void main()
 			restore_hp(hp_desired);
 		
 		//Set all the choice adventures:
+		/*
+		Encounter: A Simple Plant
+		Unsupported choice adventure #1237
+		choice 1: Grab an edible bit
+		choice 2: Take a big chunk of it
+		choice 6: Leave it alone
+		*/
 		int [int] choice_adventure_settings;
 		choice_adventure_settings[1244] = 1; //Here There Be No Spants
 		choice_adventure_settings[1246] = 1; //Land Ho, pirate language scrolls
 		choice_adventure_settings[1248] = 2; //Paradise Under a Strange Sun, Work on your tan. so what's 1?
+		choice_adventure_settings[1245] = 1; //Recovering the Satellite: Extract its data core
 		if ($item[geological sample kit].equipped_amount() > 0)
 		{
 			choice_adventure_settings[1255] = 2;
