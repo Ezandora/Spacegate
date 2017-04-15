@@ -17,7 +17,7 @@ string __setting_planet_override = "";
 
 
 
-string __spacegate_version = "1.0.10";
+string __spacegate_version = "1.0.11";
 
 
 
@@ -174,7 +174,7 @@ string pickPlanet()
 		return __setting_planet_override;
 	
 	//FIXME do this properly
-	return "ZESTFUL";
+	return "ZZZZZZZ";
 }
 
 void acquireAndEquipNeededEquipment(Spacestate state)
@@ -294,6 +294,7 @@ void main()
 		choice_adventure_settings[1246] = 1; //Land Ho, pirate language scrolls
 		choice_adventure_settings[1248] = 2; //Paradise Under a Strange Sun, Work on your tan. so what's 1?
 		choice_adventure_settings[1245] = 1; //Recovering the Satellite: Extract its data core
+		choice_adventure_settings[1239] = 2; //What a Plant! - might have 3 if we have the botanical sample kit equipped?
 		if ($item[geological sample kit].equipped_amount() > 0)
 		{
 			choice_adventure_settings[1255] = 2;
