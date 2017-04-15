@@ -17,7 +17,7 @@ string __setting_planet_override = "";
 
 
 
-string __spacegate_version = "1.0.11";
+string __spacegate_version = "1.0.12";
 
 
 
@@ -174,7 +174,7 @@ string pickPlanet()
 		return __setting_planet_override;
 	
 	//FIXME do this properly
-	return "ZZZZZZZ";
+	return "ZAAAUEN";
 }
 
 void acquireAndEquipNeededEquipment(Spacestate state)
