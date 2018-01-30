@@ -17,7 +17,7 @@ string __setting_planet_override = "";
 
 
 
-string __spacegate_version = "1.0.13";
+string __spacegate_version = "1.0.14";
 
 
 
@@ -177,6 +177,8 @@ string pickPlanet()
 	//HBMRGMA, EGGBURT (too many murderbots), ZHGKJDK (too difficult to survive)
 	//Other planets:
 	//ZXVGTGG - rocks + ant research + paradise (map end)
+	if (my_level() < 13) //not worth trying
+		return "ZAAAUEN";
 	if (random(2) == 0)
 		return "EZHEART"; //Exotic plants, not too difficult.
 	else
