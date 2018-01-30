@@ -17,7 +17,7 @@ string __setting_planet_override = "";
 
 
 
-string __spacegate_version = "1.0.12";
+string __spacegate_version = "1.0.13";
 
 
 
@@ -173,10 +173,18 @@ string pickPlanet()
 	if (__setting_planet_override != "")
 		return __setting_planet_override;
 	
-	//FIXME do this properly
-	return "ZAAAUEN";
+	//Planets that are terrible for exotic hostile plants:
+	//HBMRGMA, EGGBURT (too many murderbots), ZHGKJDK (too difficult to survive)
+	//Other planets:
+	//ZXVGTGG - rocks + ant research + paradise (map end)
+	if (random(2) == 0)
+		return "EZHEART"; //Exotic plants, not too difficult.
+	else
+		return "ZLSVLJL"; //exotic animals
+	//return "ZIWTWNB"; //"ZAAAUEN";
 }
 
+boolean __have_maximised = false;
 void acquireAndEquipNeededEquipment(Spacestate state)
 {
 	int [item] choice_ids_for_equipment;
@@ -189,7 +197,9 @@ void acquireAndEquipNeededEquipment(Spacestate state)
 	choice_ids_for_equipment[$item[botanical sample kit]] = 7;
 	choice_ids_for_equipment[$item[zoological sample kit]] = 8;
 	
+	boolean changed_equipment = false;
 	int next_accessory_slot_id = 1;
+	string maximise_string_additional = "";
 	foreach it in state.equipment_needed
 	{
 		if (it.available_amount() == 0 && choice_ids_for_equipment contains it)
@@ -210,9 +220,26 @@ void acquireAndEquipNeededEquipment(Spacestate state)
 					s = $slot[acc3];
 				next_accessory_slot_id += 1;
 			}
+			if (it.to_slot() == $slot[off-hand])
+			{
+				if ($slot[weapon].equipped_item().weapon_hands() > 1)
+				{
+					//Unequip it for now, we'll find a better one in a bit:
+					equip($slot[weapon], $item[none]);
+				}
+			}
 			if (it.equipped_amount() == 0 || ($slots[acc1, acc2, acc3] contains s))
+			{
 				equip(s, it);
+				changed_equipment = true;
+			}
+			maximise_string_additional += " -" + s;
 		}
+	}
+	if (!__have_maximised || changed_equipment)
+	{
+		maximize("1.0 DA 1.0 hp -tie -familiar 1.0 handed" + maximise_string_additional, false); //survive
+		__have_maximised = true;
 	}
 }
 
@@ -290,11 +317,20 @@ void main()
 		choice 6: Leave it alone
 		*/
 		int [int] choice_adventure_settings;
+		choice_adventure_settings[1243] = 2; //the one where you buy things
 		choice_adventure_settings[1244] = 1; //Here There Be No Spants
 		choice_adventure_settings[1246] = 1; //Land Ho, pirate language scrolls
 		choice_adventure_settings[1248] = 2; //Paradise Under a Strange Sun, Work on your tan. so what's 1?
 		choice_adventure_settings[1245] = 1; //Recovering the Satellite: Extract its data core
 		choice_adventure_settings[1239] = 2; //What a Plant! - might have 3 if we have the botanical sample kit equipped?
+		choice_adventure_settings[1247] = 1; //Half The Ship it Used to Be - space pirate language
+		choice_adventure_settings[1242] = 2; //House-Sized Animal - (1 - grab some meat; 2 - get some samples)
+		choice_adventure_settings[1237] = 2; //A Simple Plant - (1 - Grab an edible bit; 2 - Take a big chunk of it)
+		choice_adventure_settings[1240] = 2; //The Animals, The Animals - (1 - Chop off a chunk, 2 - Clip off a toenail)
+		choice_adventure_settings[1238] = 2; //A Complicated Plant - (1 - Grab some edible bits, 2 - Hack off a big chunk)
+		choice_adventure_settings[1241] = 2; //Buffalo-Like Animal, Won't You Come Out Tonight - (1 - Slice off some meat, 2 - Gather some samples)
+		choice_adventure_settings[1252] = 1; //Time Enough at Last
+		choice_adventure_settings[1253] = 1; //Mother May I
 		if ($item[geological sample kit].equipped_amount() > 0)
 		{
 			choice_adventure_settings[1255] = 2;
@@ -322,7 +358,7 @@ void main()
 	}
 	foreach s, it in saved_outfit
 	{
-		if (s.equipped_item() != it)
+		if (s.equipped_item() != it && it.available_amount() > 0)
 			equip(s, it);
 	}
 	
